@@ -31,6 +31,9 @@ const browserSync = require('browser-sync').create();
 const replace = require('gulp-replace');
 const ghPages = require('gulp-gh-pages');
 const fs = require('fs');
+const reporter = require("postcss-reporter");
+const postcssLess = require("postcss-less");
+const stylelint = require("stylelint");
 
 // Запуск `NODE_ENV=production npm start [задача]` приведет к сборке без sourcemaps
 const isDev = !process.env.NODE_ENV || process.env.NODE_ENV == 'dev';
@@ -42,6 +45,27 @@ const port = process.env.port ? process.env.port : 3000;
 let blocks = getComponentsFiles();
 console.log('---------- Список ресурсов:');
 console.log(blocks);
+
+
+
+gulp.task("lint:less", function () {
+  return gulp.src("src/less/**/*.less")
+    .pipe(postcss([
+      stylelint({
+        "rules": {
+          "color-no-invalid-hex": true,
+          "max-empty-lines": 2,
+          "rule-trailing-semicolon": "never",
+          "indentation": ["tab", {
+            "except": ["value"]
+          }]
+        }
+      }),
+      reporter({ clearMessages: true }),
+    ], {
+      syntax: postcssLess.default
+    }));
+});
 
 
 
