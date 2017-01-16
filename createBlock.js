@@ -6,7 +6,7 @@
 
 const fs = require('fs');                // будем работать с файловой системой
 const pjson = require('./package.json'); // получим настройки из package.json
-const dirs = pjson.config.directories;   // отдельно имеем объект с директориями (где лежаи папка с блоками)
+const dirs = pjson.config.directories;   // отдельно имеем объект с директориями (где лежали папка с блоками)
 const mkdirp = require('mkdirp');        // зависимость
 
 let blockName = process.argv[2];          // получим имя блока
